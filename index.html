@@ -11,6 +11,10 @@
 <body>
   <header></header>
   <main id="app" class="container">
+    <nav>
+      <h1 id="logo">ITSI Dashboard</h1>
+      <h6 id="logo-subtitle">Interplanetary Transport System Interface</h6>
+    </nav>
     <section class="row">
       <article class="col-md-6 col-xs-12" id="verhicle">
         <section class="card">
@@ -18,7 +22,8 @@
           <h3>Verhicle info</h3>
           <section class="row" style="width:100%">
             <section class="col-md-6  col-xs-12">
-
+              <span data-listen="speed" style="font-size: 2.33rem">-</span>
+              <span>km/s</span>
               <div id="chart" style="width:100%; min-height:200px"></div>
             </section>
           </section>
@@ -57,7 +62,9 @@
   </main>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
   <script src="./chart.js"></script>
+  <script src="./reactiveDom.js"></script>
   <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+  <script src="./script.js"></script>
 </body>
 
 </html>
