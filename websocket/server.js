@@ -6,6 +6,9 @@ const wsServer = new WebSocketServer({
   httpServer: server
 });
 
+var emptyState = {
+  speed: 0
+}, sentState = emptyState, currentData
 //  Random number generator
 function calc({ min, max, step, previous }) {
   //  Calculate the chances that the outcome will be negative
@@ -18,18 +21,23 @@ function calc({ min, max, step, previous }) {
   const newValue = previous + ([1, -1][+isNegative] * chosenStep);
   return Math.round((newValue + Number.EPSILON) * 100) / 100
 }
-
-wsServer.on('request', function (request) {
-
-  var sentState = {
-    speed: 0
+setInterval(() => {
+  currentData = {
+    speed: calc({ min: 7, max: 16, step: [0.2, 0.3, 0.4, 0.5, 1], previous: sentState.speed })
   }
-  const connection = request.accept(null, request.origin);
+  sentState = currentData
+}, 500)
+wsServer.on('request', function (request) {
   setInterval(() => {
-    const data = {
-      speed: calc({ min: 7, max: 16, step: [0.2, 0.3, 0.4, 0.5, 1, 2], previous: sentState.speed })
-    }
-    connection.sendUTF(JSON.stringify(data))
-    sentState = data
+    connection.sendUTF(JSON.stringify(currentData))
   }, 500)
+
+  const connection = request.accept(null, request.origin);
+  connection.on('message', message => {
+    if (message.utf8Data === "reset") {
+      console.log("RESET")
+      sentState = emptyState
+    }
+  })
+
 });

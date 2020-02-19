@@ -4,16 +4,6 @@ const STATES = {
   MEDIUM: "#00bcd4",
   LOW: "#4caf50"
 }
-const data = {
-  type: 'line',
-  data: {
-    labels: Array(9),
-    datasets: [{
-      data: Array(9),
-      borderWidth: 2
-    }]
-  }
-}
 class ItsiChart {
   constructor(canvas, { levels, maxEntries, min, max, step }) {
     this.parent = document.querySelector(canvas)
@@ -38,9 +28,13 @@ class ItsiChart {
       dataset.data.shift()
       labels.shift()
     }
+    //  Push value to data list
     dataset.data.push(value)
+    //  Calculate color
     dataset.borderColor = this.getStateColor(value)
+    //  Generate a random label (for now)
     labels.push(Math.random());
+    //  Redraw the chart
     this.chart.update()
   }
   getStateColor(value) {
@@ -55,7 +49,14 @@ class ItsiChart {
   defineChart() {
     const { width, height } = this.parent.getBoundingClientRect()
     let adata = {
-      ...data,
+      type: 'line',
+      data: {
+        labels: Array(this.maxEntries),
+        datasets: [{
+          data: Array(this.maxEntries),
+          borderWidth: 2
+        }]
+      },
       options: {
         scales: {
           xAxes: [{
@@ -85,6 +86,9 @@ class ItsiChart {
       }
     }
     if (!this.chart) this.chart = new Chart(this.ctx, adata)
-    else this.chart.update()
+    else {
+      this.chart.options.aspectRatio = width / height
+      this.chart.update()
+    }
   }
 }
