@@ -26,11 +26,11 @@ setInterval(() => {
     speed: calc({ min: 7, max: 16, step: [0.2, 0.3, 0.4, 0.5, 1], previous: sentState.speed })
   }
   sentState = currentData
-}, 500)
+}, 1000)
 wsServer.on('request', function (request) {
   setInterval(() => {
     connection.sendUTF(JSON.stringify(currentData))
-  }, 500)
+  }, 1000)
 
   const connection = request.accept(null, request.origin);
   connection.on('message', message => {
