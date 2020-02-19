@@ -12,7 +12,7 @@ const viChart = new ItsiChart("#chart", {
   step: 4
 })
 const $dom = new ReactiveDOM("listen")
-const $socket = new WebSocket("ws://localhost:9898");
+const $socket = new WebSocket("wss://school.hrdw.nl/itsi/websocket");
 
 $socket.onopen = function (e) {
   console.log("[open] Connection established");
