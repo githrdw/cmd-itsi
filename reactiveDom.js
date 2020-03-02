@@ -1,3 +1,9 @@
+/* Copyright (C) 2020 Ruben de Wit - All Rights Reserved
+ * You may use, distribute and modify this code.
+ * The above copyright notice and this permission notice 
+ * shall be included in all copies or substantial portions of the software.
+ */
+
 class ReactiveDOM {
   constructor(listener) {
     //  Empty list of event types

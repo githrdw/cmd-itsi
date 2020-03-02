@@ -1,8 +1,9 @@
+const $dom = new ReactiveDOM("text")
 
-const viChart = new ItsiChart("#chart", {
+const speedChart = new ItsiChart("speed", {
   levels: {
-    CRITICAL: v => v > 12,
-    HIGH: v => v >= 10,
+    CRITICAL: v => v > 14,
+    HIGH: v => v >= 12,
     MEDIUM: v => v >= 8,
     LOW: v => v < 8
   },
@@ -11,8 +12,21 @@ const viChart = new ItsiChart("#chart", {
   max: 16,
   step: 4
 })
-const $dom = new ReactiveDOM("listen")
 const $socket = new WebSocket("wss://school.hrdw.nl/itsi/websocket");
+const fuelChart = new ItsiChart("fuel", {
+
+  levels: {
+    CRITICAL: v => v < 20,
+    HIGH: v => v <= 40,
+    MEDIUM: v => v <= 75,
+    LOW: v => v < 100
+  },
+  maxEntries: 1,
+  type: 'bar',
+  min: 0,
+  max: 80,
+  step: 25
+})
 
 $socket.onopen = function (e) {
   console.log("[open] Connection established");
@@ -23,9 +37,10 @@ $socket.onmessage = function (event) {
     //  Parse speed and fuel from socket data
     const { speed, fuel } = JSON.parse(event.data)
     //  Update chart data
-    viChart.setData(speed)
+    speedChart.pushData(speed)
+    fuelChart.setData(fuel)
     //  Set [data-listen="speed"] to <speed>
-    $dom.set({ speed })
+    $dom.set({ speed, fuel })
   }
 };
 
@@ -36,9 +51,10 @@ $socket.onclose = function (event) {
     // e.g. server process killed or network down
     // event.code is usually 1006 in this case
     console.log('[close] Connection died');
+    alert('ITSI datasource not reachable');
   }
 };
 
-$socket.onerror = function (error) {
-  alert(`[error] ${error.message}`);
+$socket.onerror = function () {
+  alert('ITSI datasource not reachable');
 };

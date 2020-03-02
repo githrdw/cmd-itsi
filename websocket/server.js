@@ -7,7 +7,8 @@ const wsServer = new WebSocketServer({
 });
 
 var emptyState = {
-  speed: 0
+  speed: 0,
+  fuel: 80
 }, sentState = emptyState, currentData
 //  Random number generator
 function calc({ min, max, step, previous }) {
@@ -22,8 +23,10 @@ function calc({ min, max, step, previous }) {
   return Math.round((newValue + Number.EPSILON) * 100) / 100
 }
 setInterval(() => {
+  const { speed, fuel } = sentState
   currentData = {
-    speed: calc({ min: 7, max: 16, step: [0.2, 0.3, 0.4, 0.5, 1], previous: sentState.speed })
+    speed: calc({ min: 7, max: 16, step: [0.2, 0.3, 0.4, 0.5, 1], previous: speed }),
+    fuel: Math.round((fuel - 0.01) * 100) / 100
   }
   sentState = currentData
 }, 1000)
