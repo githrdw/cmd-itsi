@@ -33,7 +33,7 @@ class ReactiveDOM {
     //  Check if event exists
     const eventExists = Array.isArray(nodes)
     //  If event does not exist, terminate the script
-    if (!eventExists) throw Error(`Event '${event}' does not exists`)
+    if (!eventExists) return;
     //  Set innerHTML to all nodes
     for (let i = 0; i < nodes.length; i++) {
       nodes[i].innerHTML = value

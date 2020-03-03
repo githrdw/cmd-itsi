@@ -9,17 +9,16 @@
 </head>
 
 <body>
-  <header></header>
   <main id="app" class="container">
-    <nav>
+    <header>
       <h1 id="logo">ITSI Dashboard</h1>
       <h6 id="logo-subtitle">Interplanetary Transport System Interface</h6>
-    </nav>
+    </header>
     <section class="row">
       <article class="col-md-6 col-xs-12" id="verhicle">
         <section class="card">
           <section class="row align-center">
-            <span class="iconify" data-icon="mdi:rocket"></span>
+            <span class="iconify medium" data-icon="mdi:rocket"></span>
             <h2>Verhicle info</h2>
           </section>
           <section class="row spacer" style="width:100%">
@@ -31,7 +30,7 @@
                   <span>&nbsp;km/s</span>
                 </section>
               </section>
-              <div data-chart="speed"></div>
+              <figure data-chart="speed" aria-label="Line chart showing speed in km/s"></figure>
             </section>
             <section class="col-md-3 col-xs-12">
               <section class="spacer">
@@ -41,7 +40,7 @@
                   <span>&nbsp;%</span>
                 </section>
               </section>
-              <div data-chart="fuel"></div>
+              <figure data-chart="fuel" aria-label="Bar chart showing fuel in percentages"></figure>
             </section>
           </section>
         </section>
@@ -49,18 +48,18 @@
       <article class="col-md-6 col-xs-12" id="verhicle">
         <section class="card">
           <section class="row align-center">
-            <span class="iconify" data-icon="mdi:airplane"></span>
+            <span class="iconify medium" data-icon="mdi:airplane"></span>
             <h2>Flight</h2>
           </section>
           <section class="row spacer" style="width:100%">
             <section class="col-xs-12">
               <section class="spacer">
-                <h3>ETA</h3>
+                <h3>Estimated Time of Arrival</h3>
                 <section>
-                  <span data-text="eta">-</span>
+                  <span data-text="etaSeconds">-</span>
                 </section>
               </section>
-              <div data-chart="eta"></div>
+              <figure data-chart="eta" aria-label="Doughnut chart showing ETA in percentages"></figure>
             </section>
         </section>
       </article>

@@ -1,3 +1,8 @@
+const toHHMMSS = n => {
+  const o = n => ("" + Math.round(n)).padStart(2, 0);
+  return ((n = Math.abs(n)) < 0 ? "-" : o(n / 3600 | 0) + ":" + o(n % 3600 / 60 | 0) + ":" + o(n % 60))
+}
+
 const $dom = new ReactiveDOM("text")
 
 const fuelChart = new ItsiChart("fuel", {
@@ -42,12 +47,13 @@ $socket.onopen = function (e) {
 $socket.onmessage = function (event) {
   if (event.data) {
     //  Parse speed and fuel from socket data
-    const data = JSON.parse(event.data)
+    let data = JSON.parse(event.data)
     //  Update chart data
     speedChart.pushData(data.speed)
     fuelChart.setData(data.fuel)
     etaChart.setData(data.eta)
     etaChart.setData(100 - data.eta, 1)
+    data.etaSeconds = toHHMMSS(900 - 900 * data.eta / 100)
     //  Set [data-listen="speed"] to <speed>
     $dom.set(data)
   }
