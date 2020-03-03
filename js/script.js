@@ -1,8 +1,4 @@
-const toHHMMSS = n => {
-  const o = n => ("" + Math.round(n)).padStart(2, 0);
-  return ((n = Math.abs(n)) < 0 ? "-" : o(n / 3600 | 0) + ":" + o(n % 3600 / 60 | 0) + ":" + o(n % 60))
-}
-
+const $socket = new WebSocket("wss://school.hrdw.nl/itsi/websocket");
 const $dom = new ReactiveDOM("text")
 
 const fuelChart = new ItsiChart("fuel", {
@@ -39,6 +35,11 @@ const etaChart = new ItsiChart("eta", {
   legend: true,
   categories: [{ text: '% traveled', color: '#4caf50' }, { text: '% left', color: '#ff867c' }]
 })
+
+const toHHMMSS = n => {
+  const o = n => ("" + Math.round(n)).padStart(2, 0);
+  return ((n = Math.abs(n)) < 0 ? "-" : o(n / 3600 | 0) + ":" + o(n % 3600 / 60 | 0) + ":" + o(n % 60))
+}
 
 $socket.onopen = function (e) {
   console.log("[open] Connection established");

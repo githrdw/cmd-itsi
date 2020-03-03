@@ -1,13 +1,13 @@
 @font-face {
   font-family: 'itsi';
-  src: url('fonts/itsi.ttf') format('truetype');
+  src: url('../fonts/itsi.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 @font-face {
   font-family: 'Roboto';
-  src: url('fonts/roboto.ttf') format('truetype');
+  src: url('../fonts/roboto.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: block;
