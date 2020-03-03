@@ -8,7 +8,8 @@ const wsServer = new WebSocketServer({
 
 var emptyState = {
   speed: 0,
-  fuel: 80
+  fuel: 80,
+  eta: 10
 }, sentState = emptyState, currentData
 //  Random number generator
 function calc({ min, max, step, previous }) {
@@ -23,13 +24,17 @@ function calc({ min, max, step, previous }) {
   return Math.round((newValue + Number.EPSILON) * 100) / 100
 }
 setInterval(() => {
-  const { speed, fuel } = sentState
+  const { speed, fuel, eta } = sentState
   currentData = {
     speed: calc({ min: 7, max: 16, step: [0.2, 0.3, 0.4, 0.5, 1], previous: speed }),
-    fuel: Math.round((fuel - 0.01) * 100) / 100
+    fuel: Math.round((fuel - 0.01) * 100) / 100,
+    eta: Math.round((eta + 0.1) * 100) / 100
   }
   sentState = currentData
 }, 1000)
+setInterval(() => {
+  sentState = emptyState
+}, 900000)
 wsServer.on('request', function (request) {
   setInterval(() => {
     connection.sendUTF(JSON.stringify(currentData))

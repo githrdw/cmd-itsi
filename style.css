@@ -61,6 +61,11 @@ body, html {
   margin-left: -.5rem
 }
 
+.align-center{
+  display: flex;
+  align-items: center;
+}
+
 .spacer {
   justify-content: space-between;
   align-items: center;

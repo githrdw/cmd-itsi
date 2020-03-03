@@ -11,7 +11,7 @@ const STATES = {
   LOW: "#4caf50"
 }
 class ItsiChart {
-  constructor(chart, { levels, maxEntries, min, max, step, type }) {
+  constructor(chart, { levels, maxEntries, min, max, step, type, legend, categories }) {
     this.parent = document.querySelector(`[data-chart='${chart}']`)
     this.canvas = document.createElement('canvas')
     this.levels = levels || {}
@@ -20,6 +20,8 @@ class ItsiChart {
     this.min = min
     this.max = max
     this.step = step
+    this.legend = legend
+    this.categories = categories
 
     this.ctx = this.canvas.getContext("2d")
     this.parent.appendChild(this.canvas)
@@ -30,7 +32,16 @@ class ItsiChart {
     let { data: { labels, datasets } } = this.chart
     const dataset = datasets[0]
     dataset.data[index] = value
-    dataset.backgroundColor = this.getStateColor(value)
+    if (this.categories) {
+      if (!dataset.backgroundColor) dataset.backgroundColor = []
+      if (!labels) labels = []
+      dataset.backgroundColor[index] = this.categories[index]["color"]
+      labels[index] = this.categories[index]["text"]
+    } else {
+      labels = []
+      dataset.backgroundColor = this.getStateColor(value)
+    }
+    this.chart.labels = labels
     this.chart.update();
 
   }
@@ -66,7 +77,7 @@ class ItsiChart {
     let adata = {
       type: this.type,
       data: {
-        labels: Array(this.maxEntries),
+        labels: this.legend ? [] : Array(this.maxEntries),
         datasets: [{
           data: Array(this.maxEntries),
           borderWidth: 2
@@ -89,7 +100,11 @@ class ItsiChart {
         },
         aspectRatio: (width / height),
         legend: {
-          display: false
+          display: this.legend,
+          position: "right",
+          labels: {
+            fontColor: "#fff"
+          }
         },
         tooltips: {
           enabled: false

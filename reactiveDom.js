@@ -23,7 +23,7 @@ class ReactiveDOM {
     //  Check if event exists in event list
     const eventExists = Array.isArray(this.events[event])
     //  If event exists, push el to the list
-    if (eventExists) this.nodes[event].push(el)
+    if (eventExists) this.events[event].push(el)
     //  Or create a new list with the el as first item
     else this.events[event] = [el]
   }
