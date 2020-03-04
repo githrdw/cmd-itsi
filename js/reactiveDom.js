@@ -8,6 +8,7 @@ class ReactiveDOM {
   constructor(listener) {
     //  Empty list of event types
     this.events = {}
+    this.listener = listener
     //  Get all DOM elements with data-<listener> attribute
     const domDataListeners = document.querySelectorAll(`[data-${listener}]`)
     //  For each element
@@ -20,6 +21,10 @@ class ReactiveDOM {
   }
   //  Function to combine DOM elements with event names
   register(el, event) {
+    if (el.nodeName === "INPUT") {
+      let elProp = event.split(":")
+      el.addEventListener("keyup", () => this.input(el.value, elProp))
+    }
     //  Check if event exists in event list
     const eventExists = Array.isArray(this.events[event])
     //  If event exists, push el to the list
@@ -49,8 +54,15 @@ class ReactiveDOM {
       for (let i = 0; i < events.length; i++) {
         this.setNode(events[i], arg[events[i]])
       }
-    } 
+    }
     //  2 arguments handler (will only broadcast one event)
     else this.setNode(...cast)
+  }
+  //  Function to change input inputs
+  input(value, [event, formula]) {
+    const inputs = document.querySelectorAll(`[data-${this.listener}]`)
+    const answer = eval(formula.replace("$i", parseInt(value || 0)))
+    let input = Array.from(inputs).find(i => i.getAttribute(`data-${this.listener}`) !== [event, formula].join(":"))
+    input.value = answer
   }
 }

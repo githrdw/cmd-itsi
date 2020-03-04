@@ -1,5 +1,6 @@
 const $socket = new WebSocket("wss://school.hrdw.nl/itsi/websocket");
 const $dom = new ReactiveDOM("text")
+const $input = new ReactiveDOM("bind")
 
 const fuelChart = new ItsiChart("fuel", {
   levels: {
@@ -57,6 +58,7 @@ $socket.onmessage = function (event) {
     data.etaSeconds = toHHMMSS(900 - 900 * data.eta / 100)
     //  Set [data-listen="speed"] to <speed>
     $dom.set(data)
+    updateChat(data.messages)
   }
 };
 
@@ -74,3 +76,18 @@ $socket.onclose = function (event) {
 $socket.onerror = function () {
   alert('ITSI datasource not reachable');
 };
+
+function updateChat(messages) {
+  const chat = document.querySelector("#chat table")
+  const oldBody = chat.lastElementChild
+  const newBody = document.createElement("tbody")
+  for (let i = 0; i < messages.length; i++) {
+    const row = document.createElement("tr")
+    const cell = document.createElement("td")
+    cell.innerHTML = messages[i]
+    row.appendChild(cell)
+    newBody.appendChild(row)
+  }
+  chat.replaceChild(newBody, oldBody)
+}
+document.getElementById("chat-msg").addEventListener("keypress", e => { if (e.charCode === 13) { $socket.send(e.target.value); e.target.value = "" } })

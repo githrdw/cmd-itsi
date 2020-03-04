@@ -9,7 +9,10 @@ const wsServer = new WebSocketServer({
 var emptyState = {
   speed: 0,
   fuel: 80,
-  eta: 10
+  eta: 10,
+  pressure: 6.36,
+  temperature: -80,
+  messages: []
 }, sentState = emptyState, currentData
 //  Random number generator
 function calc({ min, max, step, previous }) {
@@ -26,6 +29,7 @@ function calc({ min, max, step, previous }) {
 setInterval(() => {
   const { speed, fuel, eta } = sentState
   currentData = {
+    ...sentState,
     speed: calc({ min: 7, max: 16, step: [0.2, 0.3, 0.4, 0.5, 1], previous: speed }),
     fuel: Math.round((fuel - 0.01) * 100) / 100,
     eta: Math.round((eta + 0.1) * 100) / 100
@@ -43,9 +47,10 @@ wsServer.on('request', function (request) {
   const connection = request.accept(null, request.origin);
   connection.on('message', message => {
     if (message.utf8Data === "reset") {
-      console.log("RESET")
       sentState = emptyState
+      sentState.messages = []
+    } else {
+      sentState.messages.push(message.utf8Data.substr(0, 64))
     }
   })
-
 });
