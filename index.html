@@ -10,7 +10,7 @@
 
 <body>
   <main id="app" class="container">
-    <header>
+    <header class="xs-center">
       <h1 id="logo">ITSI Dashboard</h1>
       <h6 id="logo-subtitle">Interplanetary Transport System Interface</h6>
     </header>
@@ -45,7 +45,7 @@
           </section>
         </section>
       </article>
-      <article class="col-md-6 col-xs-12" id="verhicle">
+      <article class="col-md-6 col-xs-12" id="flight">
         <section class="card">
           <section class="row align-center">
             <span class="iconify medium" data-icon="mdi:airplane"></span>
@@ -61,7 +61,66 @@
               </section>
               <figure data-chart="eta" aria-label="Doughnut chart showing ETA in percentages"></figure>
             </section>
-        </section>
+          </section>
+      </article>
+      <article class="col-md-6 col-xs-12" id="store">
+        <section class="card">
+          <section class="row align-center">
+            <span class="iconify medium" data-icon="mdi:message"></span>
+            <h2>Communication</h2>
+          </section>
+          <section id="chat">
+            <table>
+              <tbody>
+                <tr>
+                  <td>Loading...</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <label for="chat-msg">Message:</label>
+          <input type="text" id="chat-msg" maxlength="64" />
+      </article>
+      <article class="col-md-3 col-xs-12" id="environment">
+        <section class="card">
+          <section class="row align-center">
+            <span class="iconify medium" data-icon="mdi:coolant-temperature"></span>
+            <h2>Environment</h2>
+          </section>
+          <section class="row spacer" style="width:100%">
+            <section class="col-md-6 col-xs-12">
+              <h3>Pressure</h3>
+              <section>
+                <span data-text="pressure">-</span>
+                <span>&nbsp;hPa</span>
+              </section>
+              <h3>Temperature</h3>
+              <section>
+                <span data-text="temperature">-</span>
+                <span>&nbsp;&#8451;</span>
+              </section>
+            </section>
+          </section>
+      </article>
+      <article class="col-md-3 col-xs-12" id="tools">
+        <section class="card">
+          <section class="row align-center">
+            <span class="iconify medium" data-icon="mdi:hammer-wrench"></span>
+            <h2>Tools</h2>
+          </section>
+          <section class="row" style="width:100%">
+            <section class="col-xs-12">
+              <h3>Convert weight</h3>
+              <section>
+                <label for="earth-weight">Weight Earth (kg)</label>
+                <input type="text" id="earth-weight" data-bind="weight:($i/9.81*3.711).toFixed(2)" value="0" />
+              </section>
+              <section>
+                <label for="mars-weight">Weight Mars (kg)</label>
+                <input type="text" id="mars-weight" data-bind="weight:($i*9.81/3.711).toFixed(2)" value="0" />
+              </section>
+            </section>
+          </section>
       </article>
     </section>
   </main>
